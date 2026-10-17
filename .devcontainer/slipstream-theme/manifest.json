@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Slipstream Dark",
+  "version": "1.0.0",
+  "description": "A dark navy and electric purple theme for Slipstream.",
+  "theme": {
+    "colors": {
+      "frame": [11, 16, 32],
+      "toolbar": [15, 21, 40],
+      "tab_text": [240, 242, 255],
+      "tab_background_text": [165, 175, 205],
+      "bookmark_text": [220, 225, 245],
+      "ntp_background": [11, 16, 32],
+      "ntp_text": [240, 242, 255],
+      "ntp_link": [155, 138, 255],
+      "button_background": [109, 93, 251]
+    }
+  }
+}
