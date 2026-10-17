@@ -1,11 +1,40 @@
-#!/bin/bash
 
-# Set up update-version alias
-if ! grep -q "alias update-version=" ~/.bashrc 2>/dev/null; then
-  echo 'alias update-version="git pull origin main && devcontainer-cli rebuild --workspace-folder . 2>/dev/null || echo -e \"\n✅ Local repository updated to latest commit! Please press F1 -> Codespaces: Full Rebuild Container to reload Docker cleanly.\n\""' >> ~/.bashrc
+#!/usr/bin/env bash
+set -u
+
+# Only run repository checks inside a Git repository.
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    exit 0
 fi
 
-# Set up terminal version banner
-if ! grep -q "git fetch origin main" ~/.bashrc 2>/dev/null; then
-  echo 'git fetch origin main >/dev/null 2>&1 && LOCAL=$(git rev-parse HEAD) && REMOTE=$(git rev-parse origin/main) && if [ "$LOCAL" != "$REMOTE" ]; then NEW_VER=$(git show origin/main:.devcontainer/devcontainer.json | grep -oP "(?<=\"name\": \")[^\"]*"); echo -e "\n=========================================\n🚀 UPDATE AVAILABLE: $NEW_VER\nType: update-version (or press F1 -> Rebuild)\n=========================================\n"; fi' >> ~/.bashrc
+# Add the update command once.
+if ! grep -q 'alias update-version=' "$HOME/.bashrc" 2>/dev/null; then
+    cat >> "$HOME/.bashrc" <<'EOF'
+
+# Update Slipstream from the main branch.
+alias update-version='git pull --ff-only origin main'
+EOF
+fi
+
+# Check whether a newer version exists.
+echo "Checking for Slipstream updates..."
+
+if ! git fetch origin main; then
+    echo "Could not check for updates. Check your Git connection."
+    exit 0
+fi
+
+LOCAL="$(git rev-parse HEAD)"
+REMOTE="$(git rev-parse origin/main)"
+
+if [ "$LOCAL" != "$REMOTE" ]; then
+    echo
+    echo "========================================="
+    echo "UPDATE AVAILABLE"
+    echo "Run: update-version"
+    echo "Then rebuild the Codespace if configuration changed."
+    echo "========================================="
+    echo
+else
+    echo "Slipstream repository is up to date."
 fi
