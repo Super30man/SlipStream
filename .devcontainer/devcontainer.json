@@ -1,6 +1,6 @@
 
 {
-  "name": "Slipstream Chrome",
+  "name": "Slipstream Gaming Browser",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:1": {
@@ -15,7 +15,7 @@
       "label": "Slipstream Browser",
       "protocol": "http",
       "onAutoForward": "openBrowser",
-      "visibility": "public"
+      "visibility": "private"
     }
   }
 }

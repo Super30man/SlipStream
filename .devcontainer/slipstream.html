@@ -1,0 +1,832 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090b14">
+<title>Slipstream — Gaming Browser</title>
+
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #090b14;
+  --panel: rgba(17, 21, 38, .82);
+  --border: rgba(148, 163, 255, .16);
+  --text: #f2f4ff;
+  --muted: #969db9;
+  --blue: #5594ff;
+  --purple: #a16bff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+  background:
+    linear-gradient(120deg, rgba(8, 10, 23, .94), rgba(15, 12, 36, .76)),
+    url("https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=2000&q=85")
+    center / cover fixed,
+    var(--bg);
+  overflow-x: hidden;
+}
+
+button, input { font: inherit; }
+
+button {
+  cursor: pointer;
+  color: inherit;
+}
+
+#particles {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: auto;
+  padding: 28px 28px 42px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(147, 120, 255, .45);
+  border-radius: 14px;
+  background: linear-gradient(135deg, #287cff, #8a42ed);
+  box-shadow: 0 0 30px #674bff44;
+  font-size: 23px;
+}
+
+.brand-name {
+  font-size: 21px;
+  font-weight: 850;
+  letter-spacing: 2px;
+}
+
+.brand-name span { color: #9a83ff; }
+
+.tagline {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 1.6px;
+  margin-top: 3px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 13px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #101426b8;
+  color: #b8c0dc;
+  font-size: 12px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fbbf24;
+  box-shadow: 0 0 12px currentColor;
+}
+
+.hero {
+  text-align: center;
+  padding: clamp(60px, 10vh, 110px) 0 42px;
+}
+
+.eyebrow {
+  color: #a99bff;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+h1 {
+  font-size: clamp(42px, 7vw, 72px);
+  letter-spacing: -3px;
+  line-height: 1.08;
+  margin: 16px 0 12px;
+}
+
+h1 span {
+  background: linear-gradient(100deg, #fff, #9ac2ff 45%, #bd91ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+.search {
+  max-width: 710px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: auto;
+  padding: 8px 9px 8px 18px;
+  background: rgba(14, 17, 32, .92);
+  border: 1px solid rgba(132, 147, 255, .35);
+  border-radius: 17px;
+  box-shadow: 0 15px 60px #0005, 0 0 35px #754dff12;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.search:focus-within {
+  border-color: #8e83ff;
+  box-shadow: 0 0 0 3px #8271ff20, 0 15px 60px #0005;
+}
+
+.search-icon { font-size: 20px; color: #9da9ff; }
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  color: var(--text);
+  background: transparent;
+  padding: 12px 0;
+}
+
+.search input::placeholder { color: #858ca8; }
+
+.go {
+  border: 0;
+  border-radius: 11px;
+  padding: 12px 18px;
+  background: linear-gradient(120deg, #397dff, #8851ed);
+  font-weight: 750;
+  box-shadow: 0 5px 22px #6849ee30;
+}
+
+.go:hover { filter: brightness(1.15); }
+
+.hint {
+  color: #858ca8;
+  font-size: 11px;
+  margin-top: 14px;
+}
+
+kbd {
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: #171a2b;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(250px, 1fr);
+  gap: 18px;
+}
+
+.panel {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 19px;
+  padding: 22px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 15px 50px #0002;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.panel h2 {
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: .5px;
+}
+
+.panel-label {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.shortcuts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.shortcut {
+  position: relative;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 4px;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  background: transparent;
+  transition: background .2s, border-color .2s, transform .2s;
+}
+
+.shortcut:hover {
+  background: #ffffff08;
+  border-color: var(--border);
+  transform: translateY(-3px);
+}
+
+.shortcut-icon {
+  display: grid;
+  place-items: center;
+  width: 47px;
+  height: 47px;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  background: linear-gradient(140deg, #26365a, #33234e);
+  font-size: 21px;
+}
+
+.shortcut-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  color: #c9cee3;
+}
+
+.remove {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  border: 0;
+  border-radius: 50%;
+  background: #29223e;
+  color: #d7c8ff;
+  display: none;
+  width: 20px;
+  height: 20px;
+}
+
+.shortcut:hover .remove { display: block; }
+
+.add-shortcut {
+  border: 1px dashed #62698c80;
+  border-radius: 12px;
+  padding: 10px 13px;
+  background: transparent;
+  color: #c5b9ff;
+  font-size: 12px;
+}
+
+.add-shortcut:hover { background: #ffffff09; }
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.clock {
+  font-size: 39px;
+  font-weight: 750;
+  letter-spacing: -1px;
+  margin: 5px 0;
+}
+
+.date {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 9px;
+  border-radius: 10px;
+  background: #ffffff05;
+  border: 1px solid transparent;
+  text-align: left;
+}
+
+.recent-item:hover { border-color: var(--border); }
+
+.recent-icon { color: #9d91ff; }
+
+.recent-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.empty { color: var(--muted); font-size: 12px; }
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 22px;
+  color: #777f9e;
+  font-size: 11px;
+}
+
+footer button {
+  border: 0;
+  background: transparent;
+  color: #a8a0e9;
+}
+
+@media (max-width: 720px) {
+  .app { padding: 20px 15px 30px; }
+  .grid { grid-template-columns: 1fr; }
+  .hero { padding-top: 65px; }
+  .shortcuts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tagline { display: none; }
+  .status { font-size: 10px; }
+  .clock { font-size: 34px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<canvas id="particles" aria-hidden="true"></canvas>
+
+<div class="app">
+  <header>
+    <div class="brand">
+      <div class="logo" aria-hidden="true">ϟ</div>
+      <div>
+        <div class="brand-name">SLIP<span>STREAM</span></div>
+        <div class="tagline">YOUR WEB. YOUR SPEED.</div>
+      </div>
+    </div>
+
+    <div class="status" role="status">
+      <span class="dot" id="status-dot"></span>
+      <span id="status-text">Checking service...</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">YOUR NEXT DESTINATION</div>
+    <h1>Enter the <span>stream.</span></h1>
+    <p class="subtitle">One dashboard. Your entire web.</p>
+
+    <form class="search" id="search-form">
+      <span class="search-icon" aria-hidden="true">⌕</span>
+      <input
+        id="search-input"
+        type="text"
+        placeholder="Search the web or enter a URL..."
+        autocomplete="off"
+        aria-label="Search the web or enter a URL"
+        autofocus
+      >
+      <button class="go" type="submit">Go ↗</button>
+    </form>
+
+    <div class="hint">
+      Tip: press <kbd>Ctrl</kbd> + <kbd>L</kbd> in Chrome to navigate directly.
+    </div>
+  </section>
+
+  <main class="grid">
+    <section class="panel">
+      <div class="panel-head">
+        <h2>YOUR SHORTCUTS</h2>
+        <span class="panel-label">QUICK ACCESS</span>
+      </div>
+
+      <div class="shortcuts" id="shortcuts"></div>
+
+      <div style="margin-top:18px">
+        <button class="add-shortcut" id="add-shortcut" type="button">
+          + Add website
+        </button>
+      </div>
+    </section>
+
+    <div class="right-column">
+      <section class="panel">
+        <div class="panel-head">
+          <h2>LOCAL TIME</h2>
+          <span class="panel-label">YOUR DEVICE</span>
+        </div>
+        <div class="clock" id="clock">--:--</div>
+        <div class="date" id="date"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>RECENT DESTINATIONS</h2>
+          <button id="clear-recent" class="panel-label"
+                  type="button" style="background:none;border:0">
+            Clear
+          </button>
+        </div>
+        <div class="recent-list" id="recent-list"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <span>SLIPSTREAM · GAMING EDITION</span>
+    <button id="edit-wallpaper" type="button">Change wallpaper URL</button>
+  </footer>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const $ = (id) => document.getElementById(id);
+
+  const DEFAULT_SHORTCUTS = [
+    { name: "YouTube", url: "https://www.youtube.com", icon: "▶" },
+    { name: "GitHub", url: "https://github.com", icon: "⌘" },
+    { name: "Twitch", url: "https://www.twitch.tv", icon: "◈" },
+    { name: "Google", url: "https://www.google.com", icon: "G" }
+  ];
+
+  function load(key, fallback) {
+    try {
+      const value = localStorage.getItem(key);
+      return value ? JSON.parse(value) : fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function save(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch {
+      console.warn("Could not save Slipstream preferences.");
+    }
+  }
+
+  let shortcuts = load("slipstream-shortcuts", DEFAULT_SHORTCUTS);
+  let recent = load("slipstream-recent", []);
+  let wallpaper = localStorage.getItem("slipstream-wallpaper");
+
+  if (wallpaper) {
+    try {
+      const parsed = new URL(wallpaper);
+      if (parsed.protocol === "https:") {
+        document.body.style.background =
+          `linear-gradient(120deg, #080a17dd, #100c24c9),
+           url("${parsed.href}") center / cover fixed, #090b14`;
+      }
+    } catch {}
+  }
+
+  function normalizeDestination(value) {
+    const input = value.trim();
+    if (!input) return null;
+
+    if (/^https?:\/\//i.test(input)) {
+      try {
+        const url = new URL(input);
+        if (url.protocol === "https:" || url.protocol === "http:") {
+          return url.href;
+        }
+      } catch {}
+      return null;
+    }
+
+    // Treat localhost, IP addresses, and domain-like inputs as URLs.
+    if (
+      /^(localhost|[\d.]+)(:\d+)?(\/.*)?$/i.test(input) ||
+      /^[^\s/]+\.[^\s/]+(\/.*)?$/.test(input)
+    ) {
+      try {
+        return new URL("https://" + input).href;
+      } catch {}
+    }
+
+    return "https://www.google.com/search?q=" + encodeURIComponent(input);
+  }
+
+  function remember(url) {
+    try {
+      const parsed = new URL(url);
+      const entry = {
+        url: parsed.href,
+        name: parsed.hostname.replace(/^www\./, ""),
+        time: Date.now()
+      };
+
+      recent = [
+        entry,
+        ...recent.filter(item => item.url !== entry.url)
+      ].slice(0, 6);
+
+      save("slipstream-recent", recent);
+      renderRecent();
+    } catch {}
+  }
+
+  function navigate(url) {
+    const destination = normalizeDestination(url);
+    if (!destination) {
+      alert("Please enter a valid website address or search query.");
+      return;
+    }
+
+    remember(destination);
+    window.location.assign(destination);
+  }
+
+  $("search-form").addEventListener("submit", event => {
+    event.preventDefault();
+    navigate($("search-input").value);
+  });
+
+  function renderShortcuts() {
+    const container = $("shortcuts");
+    container.replaceChildren();
+
+    shortcuts.forEach((item, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "shortcut";
+      button.title = item.url;
+
+      const icon = document.createElement("span");
+      icon.className = "shortcut-icon";
+      icon.textContent = item.icon || "↗";
+
+      const name = document.createElement("span");
+      name.className = "shortcut-name";
+      name.textContent = item.name;
+
+      const remove = document.createElement("span");
+      remove.className = "remove";
+      remove.textContent = "×";
+      remove.title = "Remove shortcut";
+      remove.setAttribute("role", "button");
+      remove.setAttribute("tabindex", "0");
+      remove.setAttribute("aria-label", "Remove " + item.name);
+
+      function removeItem(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        shortcuts.splice(index, 1);
+        save("slipstream-shortcuts", shortcuts);
+        renderShortcuts();
+      }
+
+      remove.addEventListener("click", removeItem);
+      remove.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          removeItem(event);
+        }
+      });
+
+      button.append(icon, name, remove);
+      button.addEventListener("click", () => navigate(item.url));
+      container.append(button);
+    });
+  }
+
+  $("add-shortcut").addEventListener("click", () => {
+    const name = prompt("Website name:");
+    if (!name || !name.trim()) return;
+
+    const raw = prompt("Website URL (for example, https://example.com):");
+    if (!raw) return;
+
+    const url = normalizeDestination(raw);
+    if (!url || !/^https?:\/\//i.test(url)) {
+      alert("Enter a valid HTTP or HTTPS website URL.");
+      return;
+    }
+
+    const icon = prompt("Choose a single icon or emoji:", "✦") || "✦";
+    shortcuts.push({
+      name: name.trim().slice(0, 30),
+      url,
+      icon: icon.slice(0, 4)
+    });
+
+    save("slipstream-shortcuts", shortcuts);
+    renderShortcuts();
+  });
+
+  function renderRecent() {
+    const container = $("recent-list");
+    container.replaceChildren();
+
+    if (!recent.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = "Your recently opened destinations will appear here.";
+      container.append(empty);
+      return;
+    }
+
+    recent.forEach(item => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "recent-item";
+
+      const icon = document.createElement("span");
+      icon.className = "recent-icon";
+      icon.textContent = "↗";
+
+      const name = document.createElement("span");
+      name.className = "recent-name";
+      name.textContent = item.name;
+
+      button.append(icon, name);
+      button.addEventListener("click", () => navigate(item.url));
+      container.append(button);
+    });
+  }
+
+  $("clear-recent").addEventListener("click", () => {
+    recent = [];
+    save("slipstream-recent", recent);
+    renderRecent();
+  });
+
+  function updateClock() {
+    const now = new Date();
+    $("clock").textContent = now.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+    $("date").textContent = now.toLocaleDateString([], {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    });
+  }
+
+  async function checkService() {
+    const dot = $("status-dot");
+    const text = $("status-text");
+
+    try {
+      const response = await fetch(
+        window.location.pathname + "?health=" + Date.now(),
+        { cache: "no-store" }
+      );
+
+      if (!response.ok) throw new Error("Homepage unavailable");
+
+      dot.style.background = "#4ade80";
+      dot.style.color = "#4ade80";
+      text.textContent = "Homepage online";
+    } catch {
+      dot.style.background = "#f87171";
+      dot.style.color = "#f87171";
+      text.textContent = "Homepage check failed";
+    }
+  }
+
+  $("edit-wallpaper").addEventListener("click", () => {
+    const current = wallpaper || "";
+    const input = prompt(
+      "Enter an HTTPS image URL. Leave blank to use the default wallpaper.",
+      current
+    );
+
+    if (input === null) return;
+
+    if (!input.trim()) {
+      localStorage.removeItem("slipstream-wallpaper");
+      wallpaper = null;
+      location.reload();
+      return;
+    }
+
+    try {
+      const url = new URL(input.trim());
+      if (url.protocol !== "https:") throw new Error();
+
+      wallpaper = url.href;
+      localStorage.setItem("slipstream-wallpaper", wallpaper);
+      location.reload();
+    } catch {
+      alert("Please enter a valid HTTPS image URL.");
+    }
+  });
+
+  // Subtle, lightweight animated background particles.
+  const canvas = $("particles");
+  const ctx = canvas.getContext("2d");
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let width = 0;
+  let height = 0;
+  let particles = [];
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    particles = Array.from(
+      { length: Math.min(55, Math.floor(width / 22)) },
+      () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 1.6 + .4,
+        dx: (Math.random() - .5) * .22,
+        dy: -Math.random() * .3 - .05,
+        alpha: Math.random() * .5 + .15
+      })
+    );
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, width, height);
+
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(151, 139, 255, ${p.alpha})`;
+      ctx.fill();
+
+      if (!reduceMotion) {
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if (p.y < -5) p.y = height + 5;
+        if (p.x < -5) p.x = width + 5;
+        if (p.x > width + 5) p.x = -5;
+      }
+    }
+
+    if (!reduceMotion) requestAnimationFrame(drawParticles);
+  }
+
+  resize();
+  drawParticles();
+  window.addEventListener("resize", resize);
+
+  renderShortcuts();
+  renderRecent();
+  updateClock();
+  checkService();
+
+  setInterval(updateClock, 1000);
+  setInterval(checkService, 30000);
+})();
+</script>
+</body>
+</html>
