@@ -1,0 +1,361 @@
+/* SLIPSTREAM PURPLE SEARCH */
+:root {
+  color-scheme: dark !important;
+  --ss-bg: #10091f;
+  --ss-panel: #1b1030;
+  --ss-card: #21143a;
+  --ss-border: #503078;
+  --ss-text: #f5efff;
+  --ss-muted: #c0b1d9;
+  --ss-purple: #c4a0ff;
+  --ss-blue: #91baff;
+}
+
+/* Purple-tinted page background */
+html,
+body {
+  background: #10091f !important;
+  background-image:
+    radial-gradient(ellipse at 15% 0%, #702cff40, transparent 48%),
+    radial-gradient(ellipse at 90% 25%, #354cff2c, transparent 45%) !important;
+  color: var(--ss-text) !important;
+}
+
+/* Remove white backgrounds from Google's main layout */
+#viewport,
+#main,
+#cnt,
+#center_col,
+#rhs,
+#botstuff,
+#appbar,
+#top_nav,
+#searchform,
+.sfbg,
+.sfbgg,
+#rso,
+#res,
+#search,
+#bres,
+#extrares,
+#kp-wp-tab-overview,
+#rhs .kp-wholepage,
+#rhs .xpdopen,
+#rhs .kp-blk,
+#rhs .osrp-blk,
+#rhs .wDYxhc,
+#rhs .mod,
+#rhs .xpd,
+#rhs .ifM9O,
+#rhs .ULSxyf,
+#rhs .MjjYud,
+#rhs [data-attrid],
+#rhs [data-hveid] {
+  background-color: transparent !important;
+  color: var(--ss-text) !important;
+}
+/* Right-side results container */
+#rcnt {
+  background: #10091f !important;
+  color: var(--ss-text) !important;
+}
+/* Give cards a coordinated purple surface */
+.RNNXgb,
+.aajZCb,
+#rhs .kp-wholepage,
+#rhs .xpdopen,
+#rhs .kp-blk {
+  background-color: var(--ss-card) !important;
+  border-color: var(--ss-border) !important;
+  border-radius: 14px !important;
+}
+
+/* Search field */
+.RNNXgb {
+  background-color: var(--ss-panel) !important;
+  border: 1px solid var(--ss-border) !important;
+}
+
+input,
+textarea,
+[role="combobox"] {
+  color: var(--ss-text) !important;
+  caret-color: var(--ss-purple) !important;
+}
+
+/* Text and definitions */
+body,
+body div,
+body section,
+body article,
+body li,
+body p,
+body span,
+body h1,
+body h2,
+body h3,
+body h4,
+body label,
+body td,
+body th,
+.VwiC3b,
+.IsZvec,
+.kno-rdesc,
+.kno-ecr-pt,
+.LHJvCe,
+[data-attrid] {
+  color: var(--ss-text) !important;
+}
+
+/* Links */
+a,
+a:link,
+.yuRUbf a,
+.LC20lb,
+.DKV0Md {
+  color: var(--ss-purple) !important;
+}
+
+a:visited {
+  color: #d9a8ff !important;
+}
+
+a:hover,
+.LC20lb:hover {
+  color: var(--ss-blue) !important;
+}
+
+/* URLs and source labels */
+cite,
+.TbwUpd,
+.VuuXrf,
+.qLRx3b {
+  color: #a9ccff !important;
+}
+
+/* Separators and controls */
+hr,
+.MjjYud,
+.g {
+  border-color: var(--ss-border) !important;
+}
+
+button,
+[role="button"] {
+  color: var(--ss-text) !important;
+  border-color: var(--ss-border) !important;
+}
+
+/* Keep media and logos intact */
+img,
+video,
+canvas {
+  background-color: transparent !important;
+}
+
+/* SLIPSTREAM: fix remaining white Google widgets */
+
+/* Video cards, side panels, and embedded result blocks */
+#rhs,
+#rhs > div,
+#rhs > div > div,
+.MjjYud,
+.Ww4FFb,
+.N54PNb,
+.vt6azd,
+.M8OgIe,
+.xpd,
+.xpdopen,
+.kp-blk,
+.kp-wholepage,
+.ULSxyf,
+.ifM9O,
+[data-attrid],
+[data-hveid] > div {
+  background-color: #21143a !important;
+  color: #f5efff !important;
+  border-color: #503078 !important;
+}
+
+/* AI overview and its bottom edge */
+[jsname="yEVEwb"],
+[jsname="Cpkphb"],
+.LGOjhe,
+.YzCcne,
+.S6W6M,
+.WaaZC,
+.HwtpBd {
+  background-color: #1b1030 !important;
+  color: #f5efff !important;
+  border-color: #503078 !important;
+}
+
+/* Video/image thumbnails: don't recolor the actual media */
+video,
+img {
+  background-color: transparent !important;
+}
+
+/* Expandable questions and dropdown rows */
+.related-question-pair,
+[jsname="yEVEwb"] [role="button"],
+[jsname="Cpkphb"] [role="button"],
+[aria-expanded="false"],
+[aria-expanded="true"],
+.mWyH1d,
+.GI74Re,
+.Mg1HEd,
+.SiaUfd,
+.Wt5Tfe {
+  background-color: #21143a !important;
+  color: #f5efff !important;
+  border-color: #503078 !important;
+}
+
+/* Circles and square controls around icons */
+button,
+[role="button"],
+[role="img"],
+.xTFaxe,
+.B2VR9,
+.L3eUgb,
+.DU1Mzb {
+  color: #d2b8ff !important;
+  border-color: #503078 !important;
+}
+
+/* Fix white rectangles created by pseudo-elements */
+#rhs *::before,
+#rhs *::after,
+.related-question-pair *::before,
+.related-question-pair *::after {
+  border-color: #503078 !important;
+}
+
+/* Keep the overall bottom region purple */
+#botstuff,
+#botstuff > div,
+#botstuff > div > div {
+  background-color: #10091f !important;
+  color: #f5efff !important;
+}
+
+/* Ensure source cards and "more images" controls match */
+a,
+a > div,
+a > span,
+a[role="button"],
+a[data-ved] {
+  border-color: #503078 !important;
+}
+
+/* Search result text stays readable */
+#rhs p,
+#rhs span,
+#rhs div,
+#rhs li,
+#botstuff p,
+#botstuff span {
+  color: #f5efff !important;
+}
+/* SLIPSTREAM PURPLE — remaining Google Search elements */
+
+/* Dropdown triangles and expandable arrows */
+[aria-expanded] svg,
+[aria-expanded] path,
+button svg,
+button path,
+[role="button"] svg,
+[role="button"] path {
+  fill: #c4a0ff !important;
+  color: #c4a0ff !important;
+  stroke: #c4a0ff !important;
+}
+
+/* Video preview containers and their white backgrounds */
+#rso [class*="video"],
+#rso [class*="Video"],
+#rso [class*="player"],
+#rso [class*="Player"],
+#rhs [class*="video"],
+#rhs [class*="Video"],
+#rhs [class*="player"],
+#rhs [class*="Player"],
+#rso [class*="preview"],
+#rhs [class*="preview"] {
+  background-color: #21143a !important;
+  border-color: #503078 !important;
+  color: #f5efff !important;
+}
+
+/* Google AI "Ask anything" input and surrounding container */
+form[role="search"] [contenteditable="true"],
+[contenteditable="true"],
+textarea,
+input,
+[role="textbox"] {
+  background-color: #21143a !important;
+  color: #f5efff !important;
+  border-color: #7548a8 !important;
+  caret-color: #c4a0ff !important;
+}
+
+/* AI overview and AI prompt containers */
+[aria-label*="Ask anything"],
+[aria-label*="Ask Anything"],
+[placeholder*="Ask anything"],
+[placeholder*="Ask Anything"],
+div:has(> [contenteditable="true"]),
+div:has(> textarea) {
+  background-color: #21143a !important;
+  color: #f5efff !important;
+  border-color: #503078 !important;
+}
+
+/* Placeholder text */
+input::placeholder,
+textarea::placeholder,
+[contenteditable="true"]:empty::before {
+  color: #bba2df !important;
+  opacity: 1 !important;
+}
+/* Slipstream: purple Google dropdowns */
+.p8Jhnd,
+.p8Jhnd svg,
+.p8Jhnd path {
+  background-color: #21143a !important;
+  color: #c4a0ff !important;
+  fill: #c4a0ff !important;
+  stroke: #c4a0ff !important;
+}
+/* Slipstream: Google Show more control */
+.ZFiwCf,
+.ZFiwCf svg,
+.ZFiwCf path {
+  background-color: #21143a !important;
+  color: #c4a0ff !important;
+  fill: #c4a0ff !important;
+  stroke: #c4a0ff !important;
+  border-color: #503078 !important;
+}
+.lE72Gc,
+.lE72Gc * {
+  background-color: #21143a !important;
+  border-color: #503078 !important;
+}
+
+/* Slipstream: pop-up element — alternate purple */
+.KDcb0c,
+.KDcb0c * {
+  background-color: #30204d !important;
+  border-color: #62458a !important;
+}
+
+/* Slipstream: lighter purple button */
+.YHsVn,
+.YHsVn:hover,
+.YHsVn:focus {
+  background-color: #49316d !important;
+  border-color: #7955a8 !important;
+  color: #f2eaff !important;
+}

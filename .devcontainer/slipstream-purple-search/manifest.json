@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Slipstream Purple Search",
+  "version": "1.0.0",
+  "description": "A dark purple and blue theme for Google Search.",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.google.com/search*",
+        "https://google.com/search*"
+      ],
+      "css": ["google-purple.css"],
+      "run_at": "document_start"
+    }
+  ]
+}
